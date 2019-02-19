@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const jsonTransformer = require('./jsonTransformer');
 
 const UserSchema = new Schema({
   email: {
@@ -16,5 +17,11 @@ const UserSchema = new Schema({
     ref: 'Comment'
   }]
 });
+
+UserSchema.options.toJSON = jsonTransformer([
+  'email',
+  'posts',
+  'comments'
+]);
 
 module.exports = mongoose.model('User', UserSchema);

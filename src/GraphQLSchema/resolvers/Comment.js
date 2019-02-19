@@ -6,11 +6,7 @@ module.exports = {
   Mutation: {
     async createComment(parent, {comment}) {
       const createdComment = await new Comment(comment).save();
-
-      return {
-        ...createdComment.toJSON(),
-        id: createdComment._id.toString()
-      };
+      return createdComment.toJSON();
     },
 
     updateComment(parent, {id, comment}) {
@@ -25,20 +21,12 @@ module.exports = {
   Comment: {
     async author({author}) {
       const user = await User.findById(author);
-
-      return {
-        ...user.toJSON(),
-        id: user._id.toString()
-      };
+      return user.toJSON();
     },
 
     async post({post}) {
       const it = await Post.findById(post);
-
-      return {
-        ...it.toJSON(),
-        id: it._id.toString()
-      };
+      return it.toJSON();
     }
   }
 };

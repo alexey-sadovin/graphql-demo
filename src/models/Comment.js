@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const jsonTransformer = require('./jsonTransformer');
 
 const CommentSchema = new Schema({
   text: {
@@ -18,4 +19,10 @@ const CommentSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("Comment", CommentSchema);
+CommentSchema.options.toJSON = jsonTransformer([
+  'text',
+  'author',
+  'post'
+]);
+
+module.exports = mongoose.model('Comment', CommentSchema);

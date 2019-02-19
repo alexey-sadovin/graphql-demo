@@ -6,30 +6,19 @@ module.exports = {
   Query: {
     async user(parent, {id}) {
       const user = await User.findOne({_id: id});
-      return {
-        ...user.toJSON(),
-        id: user._id.toString()
-      };
+      return user.toJSON();
     },
 
     async users() {
       const users = await User.find({});
-
-      return users.map(it => ({
-        ...it.toJSON(),
-        id: it._id.toString()
-      }));
+      return users.map(it => it.toJSON());
     }
   },
 
   Mutation: {
     async createUser(parent, {user}) {
       const createdUser = await new User(user).save();
-
-      return {
-        ...createdUser.toJSON(),
-        id: createdUser._id.toString()
-      };
+      return createdUser.toJSON();
     },
 
     async updateUser(parent, {id, user}) {
@@ -40,19 +29,12 @@ module.exports = {
   User: {
     async posts({id}) {
       const posts = await Post.find({author: id});
-
-      return posts.map(it => ({
-        ...it.toJSON(),
-        id: it._id.toString()
-      }));
+      return posts.map(it => it.toJSON());
     },
 
     async comments({id}) {
       const comments = await Comment.find({author: id});
-      return comments.map(it => ({
-        ...it.toJSON(),
-        id: it._id.toString()
-      }));
+      return comments.map(it => it.toJSON());
     }
   }
 };
